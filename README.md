@@ -93,12 +93,12 @@ tDuQFL_Project/
 └─ artifacts/                        # saved weights / checkpoints
    └─ models/
 
-🔧 Installation
+##🔧 Installation
 python -m venv .venv
 source .venv/bin/activate      # windows: .venv\Scripts\activate
 pip install -r requirements.txt
 
-⚙️ Configure
+##⚙️ Configure
 
 Edit configs/base_config.py:
 
@@ -115,17 +115,17 @@ split_type                    = "IID"    # or "NONIID"
 global_seed                   = 42
 
 
-Deep-Unfolding caps (safety bounds)
+##Deep-Unfolding caps (safety bounds)
 In ml/optimizers.py:
 
-# Trust-region caps (tune per dataset)
+## Trust-region caps (tune per dataset)
 LR_MIN, LR_MAX     = 1e-3, 0.30
 PERT_MIN, PERT_MAX = 1e-3, 0.50
 
 
 These prevent runaway LR/PERT. Raise them cautiously if your task benefits from larger steps.
 
-📚 Data
+##📚 Data
 Genome (Human/Worm demo)
 
 Prepared in data/preprocess_genome.py. Produces normalized records:
@@ -167,7 +167,7 @@ Tip: ensure you have enough training samples:
 train_capacity = len(np_train_data) // (num_clients * samples_per_epoch)
 num_epochs     = min(num_epochs, train_capacity)
 
-🚀 Run training
+##🚀 Run training
 
 Minimal example (Genome + IID):
 
@@ -228,7 +228,7 @@ Run:
 
 python scripts/run_genome_iid.py
 
-🤝 Aggregation strategies (plugins)
+##🤝 Aggregation strategies (plugins)
 
 All server aggregation lives in fl/aggregation/.
 
@@ -281,7 +281,7 @@ validation.csv — global validation loss per round
 
 round_metrics.csv — summary per round (fairness gap, time, teleport stats if enabled)
 
-🧠 Deep-Unfolding controller (how it works)
+##🧠 Deep-Unfolding controller (how it works)
 
 Each SPSA callback nudges LR/PERT using a momentum-smoothed “gradient” proxy (we use stepsize as a surrogate).
 
@@ -289,7 +289,7 @@ Per-fit normalization UPDATE_SCALE = 1 / maxiter keeps total change per local fi
 
 We cap LR/PERT to [LR_MIN, LR_MAX] and [PERT_MIN, PERT_MAX].
 
-🪤 Common pitfalls & fixes
+##🪤 Common pitfalls & fixes
 
 NoneType best_client_model
 Happens if no client produced a model for a round (usually empty epoch slice).
@@ -305,7 +305,7 @@ LR/PERT explode or stall
 Global accuracy drops after R1 (Best-Client)
 ✅ Use validation-based selection, improvement gate, and smoothing τ. Consider switching to FedAvg for non-IID.
 
-🧪 Reproducibility
+##🧪 Reproducibility
 
 Set global_seed in configs/base_config.py.
 
@@ -313,7 +313,7 @@ Fix num_clients, samples_per_epoch, and LR/PERT caps.
 
 CSV logs are deterministic given the seed and environment (qiskit simulators included).
 
-🗺️ Extending to MNIST
+##🗺️ Extending to MNIST
 
 Add an MNIST loader that outputs {'sequence': np.ndarray, 'label': int} to match the current interface.
 
@@ -323,7 +323,7 @@ Derive num_features = clients[0].data[0][0]['sequence'].shape[0].
 
 Run the same training loop.
 
-📊 Figures used in this README
+##📊 Figures used in this README
 
 Once you’ve run training (or even before), you can generate the figures below:
 
