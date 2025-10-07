@@ -15,30 +15,70 @@ Aggregation plugins: Best-Client (val-gated & smoothed) or FedAvg.
 
 Metrics logging: global/client accuracies, validation loss, (optional) teleportation stats.
 
+## Repository Structure
+
+```text
 tDuQFL_Project/
-├── configs/
-│   └── base_config.py
-├── data/
-│   ├── preprocess_genome.py        # Genome dataset prep
-│   ├── splitters.py                # IID splitter
-│   └── noniid.py                   # Non-IID split (quantity + label skew)
-├── fl/
-│   ├── client.py                   # Client container
-│   └── aggregation/
-│       ├── best_client.py          # Val-gated & smoothed best-client
-│       └── fedavg.py               # Standard FedAvg
-├── io_utils/
-│   └── csv_logger.py
-├── ml/
-│   ├── models.py                   # QNN init (qiskit circuits, etc.)
-│   └── optimizers.py               # Learnable SPSA + deep-unfold controller
-├── tele/
-│   ├── noise.py
-│   └── teleport.py
-├── training/
-│   ├── callbacks.py                # trackers for LR/PERT/objective
-│   ├── loop.py                     # federated orchestration
-│   └── metrics.py                  # round-level metrics logger
-└── examples/
-    ├── run_genome_iid.py           # minimal runnable examples
-    └── run_genome_noniid.py
+├─ README.md
+├─ requirements.txt
+├─ .gitignore
+
+├─ configs/
+│  ├─ base_config.py                 # global knobs (rounds, clients, LR/PERT, seeds, etc.)
+│  └─ mnist_config.py                # (optional) dataset-specific overrides
+
+├─ common/
+│  └─ imports.py                     # centralized imports / globals
+
+├─ data/
+│  ├─ preprocess_genome.py           # build Genome dataset tensors
+│  ├─ preprocess_mnist.py            # (optional) MNIST preprocessor
+│  ├─ splitters/
+│  │  ├─ iid.py                      # IID client/epoch splitter
+│  │  └─ noniid.py                   # Non-IID splitter (quantity + label skew)
+│  └─ __init__.py
+
+├─ fl/
+│  └─ client.py                      # Client wrapper (train/test shards, current model)
+
+├─ ml/
+│  ├─ models.py                      # QNN model init/wiring to optimizer
+│  ├─ optimizers.py                  # Learnable SPSA + deep-unfolding controller
+│  └─ __init__.py
+
+├─ aggregators/
+│  ├─ best_client.py                 # pick best client’s weights (argmax test acc)
+│  ├─ fedavg.py                      # standard FedAvg (weighted mean by samples)
+│  └─ __init__.py
+
+├─ training/
+│  ├─ loop.py                        # federated rounds + deep unfolding per client
+│  ├─ callbacks.py                   # SPSA callback trackers (LR/PERT/objective)
+│  ├─ metrics.py                     # round metrics logger + summary helpers
+│  └─ __init__.py
+
+├─ tele/
+│  ├─ teleport.py                    # (optional) parameter teleportation
+│  ├─ noise.py                       # (optional) noise backends
+│  └─ __init__.py
+
+├─ io_utils/
+│  ├─ csv_logger.py                  # local/global CSV logging helpers
+│  └─ __init__.py
+
+├─ scripts/
+│  ├─ run_genome_iid.py              # launch Genome + IID split
+│  ├─ run_genome_noniid.py           # launch Genome + Non-IID split
+│  ├─ run_mnist_iid.py               # (optional) launch MNIST + IID split
+│  └─ preview_readme.py              # local README preview (HTML)
+
+├─ notebooks/
+│  └─ exploratory.ipynb              # scratch / experiments
+
+├─ results/                          # generated at runtime
+│  ├─ local_client_metrics.csv
+│  ├─ global_metrics.csv
+│  └─ validation_loss.csv
+
+└─ artifacts/                        # saved weights / checkpoints
+   └─ models/
