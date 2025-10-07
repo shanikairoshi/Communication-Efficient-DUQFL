@@ -1,6 +1,20 @@
 # Communication-Efficient-DUQFL
 This is the official implementation for Communication-Efficient Deep Unfolded Quantum Federated Learning. This repository includes all the setup details, experimental results, and the code structure necessary to reproduce the purpose.
 
+Deep-unfolding federated learning with learnable SPSA hyper-params (learning rate & perturbation), optional quantum teleportation perturbation, and pluggable aggregation strategies.
+
+✨ Highlights
+
+Deep-Unfolding SPSA: LR & perturbation are adapted during each local fit via a momentum-smoothed controller.
+
+Trust-Region Caps: Safety bounds for LR/PERT to avoid divergence.
+
+Federated Rounds with client carry-over of learned hyper-params.
+
+Aggregation plugins: Best-Client (val-gated & smoothed) or FedAvg.
+
+Metrics logging: global/client accuracies, validation loss, (optional) teleportation stats.
+
 tDuQFL_Project/
 ├── configs/
 │   └── base_config.py
