@@ -93,5 +93,8 @@ tDuQFL_Project/
 └─ artifacts/                        # saved weights / checkpoints
    └─ models/
 
+---
+
+## 📁 Repository Structure
 
 #🔧 Installation
