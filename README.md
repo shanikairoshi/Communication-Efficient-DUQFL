@@ -24,6 +24,9 @@ Metrics logging: global/client accuracies, validation loss, (optional) teleporta
 Federated learning with a learnable SPSA optimizer and deep-unfolding hyper-step adaptation. Optional quantum “teleportation” perturbation of global weights for robustness.
 
 ---
+python -m venv .venv
+source .venv/bin/activate      # windows: .venv\Scripts\activate
+pip install -r requirements.txt
 
 ## 📁 Repository Structure
 
@@ -93,8 +96,4 @@ tDuQFL_Project/
 └─ artifacts/                        # saved weights / checkpoints
    └─ models/
 
----
 
-## 📁 Repository Structure
-
-#🔧 Installation
