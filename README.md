@@ -15,6 +15,39 @@ Quantum federated learning (QFL) framework supporting deep unfolding (DU), aggre
 Includes MNIST (binary) and Breast-Lesions datasets, with full logging of accuracy,
 validation loss, and communication bytes.
 
+## big-picture overview
+
+You are running quantum federated learning (QFL) over multiple rounds.  
+Each round has four phases.
+
+### 1) local training (per client)
+- Each client trains its QNN (with or without deep unfolding).
+- The client returns an updated local model.
+
+### 2) uplink (client → server)
+Depending on the uplink mode, each client transmits one of:
+- **classical_full:** full model weights
+- **seeded_sparse:** compressed sparse delta (seeded)
+- **quantum:** teleportation-simulated quantum payload
+
+### 3) server aggregation
+Depending on the aggregation strategy:
+- **fedavg:** average all client parameters (or deltas)
+- **best:** pick a winner (submodes: `all` or `winner_only`), optionally \( \tau \)-mix
+
+### 4) downlink (server → all clients)
+The server broadcasts the global model using one of:
+- **classical_full:** full model weights
+- **seeded:** seeded compression
+- **quantum:** teleportation-simulated quantum downlink
+
+### end-of-round logging
+Record the following for analysis and reproducibility:
+- Global accuracy, per-client accuracies, validation loss, and wall-clock time
+- Communication bytes up/down (including quantum accounting of **2 classical bits per parameter**)
+- Communication modes and hyperparameters (for baseline vs quantum comparisons)
+
+
 ## key features
 
 ### quantum models
