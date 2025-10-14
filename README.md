@@ -45,8 +45,6 @@ validation loss, and communication bytes.
 
 ## repo structure
 
-
-
 ---
 python -m venv .venv
 source .venv/bin/activate      # windows: .venv\Scripts\activate
@@ -119,3 +117,21 @@ tDuQFL_Project/
 
 └─ artifacts/                        # saved weights / checkpoints
    └─ models/
+```
+
+## 🧾 Description of directories
+
+| Directory | Description |
+|:-----------|:-------------|
+| **configs/** | Global and dataset-specific configuration files containing training and communication parameters |
+| **common/** | Shared imports and global constants used across modules |
+| **data/** | Dataset preprocessing and client splitting (IID and Non-IID modes) |
+| **fl/** | Federated learning components including client logic and aggregation methods (FedAvg, Best-client) |
+| **ml/** | Quantum model definitions and optimizers (SPSA, deep unfolding controllers) |
+| **training/** | Core training loop, metric logging, and callback handling for each round |
+| **tele/** | Quantum-inspired teleportation modules and Aer noise simulators |
+| **io_utils/** | CSV logging utilities and result-naming helpers |
+| **scripts/** | Entry-point scripts to run predefined experiments and generate plots |
+| **docs/** | Documentation and auto-generated figures for the README |
+| **results/** | Output CSV files generated during training (accuracy, validation loss, etc.) |
+| **artifacts/** | Saved model weights and checkpoints for later evaluation |
