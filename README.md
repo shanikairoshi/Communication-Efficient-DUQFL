@@ -15,9 +15,8 @@ Quantum federated learning (QFL) framework supporting deep unfolding (DU), aggre
 Includes MNIST (binary) and Breast-Lesions datasets, with full logging of accuracy,
 validation loss, and communication bytes.
 
-## big-picture overview
+## overview
 
-You are running quantum federated learning (QFL) over multiple rounds.  
 Each round has four phases.
 
 ### 1) local training (per client)
