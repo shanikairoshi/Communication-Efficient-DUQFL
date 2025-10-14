@@ -1,27 +1,51 @@
 # Communication-Efficient-DUQFL
+# tDuQFL — deep-unfolded quantum federated learning with communication modes
 This is the official implementation for Communication-Efficient Deep Unfolded Quantum Federated Learning. This repository includes all the setup details, experimental results, and the code structure necessary to reproduce the purpose.
 
 Deep-unfolding federated learning with learnable SPSA hyper-params (learning rate & perturbation), optional quantum teleportation perturbation, and pluggable aggregation strategies.
 Quantum federated learning (QFL) framework supporting deep unfolding (DU), aggregation choices (FedAvg / Best-client), and three communication modes per direction (uplink/downlink): classical_full, seeded (compressed), and quantum (teleportation-simulated). Includes MNIST (binary) and Breast-Lesions datasets, full logging of accuracy, validation loss, and communication bytes.
-✨ Highlights
-
-Deep-Unfolding SPSA: LR & perturbation are adapted during each local fit via a momentum-smoothed controller.
-
-Trust-Region Caps: Safety bounds for LR/PERT to avoid divergence.
-
-Federated Rounds with client carry-over of learned hyper-params.
-
-Aggregation plugins: Best-Client (val-gated & smoothed) or FedAvg.
-
-Metrics logging: global/client accuracies, validation loss, (optional) teleportation stats.
-
-# tDuQFL — Teleportation-aware Deep-Unfolded QFL (SPSA)
 
 ![python](https://img.shields.io/badge/python-3.10%2B-blue)
 ![qiskit](https://img.shields.io/badge/qiskit-yes-5A3FD9)
 ![status](https://img.shields.io/badge/status-research--prototype-green)
 
-Federated learning with a learnable SPSA optimizer and deep-unfolding hyper-step adaptation. Optional quantum “teleportation” perturbation of global weights for robustness.
+Quantum federated learning (QFL) framework supporting deep unfolding (DU), aggregation choices
+(FedAvg / Best-client), and three communication modes per direction (uplink/downlink):
+`classical_full`, `seeded` (compressed), and `quantum` (teleportation-simulated).
+Includes MNIST (binary) and Breast-Lesions datasets, with full logging of accuracy,
+validation loss, and communication bytes.
+
+## key features
+
+### quantum models
+- QNN over RealAmplitudes ansatz  
+- SPSA optimizer for gradient-free updates
+
+### deep unfolding
+- Per-round meta-updates to learning rate \( \eta \) and perturbation \( \delta \)
+- Toggle DU on or off for ablation analysis
+
+### aggregation
+- **fedavg** – standard weighted averaging  
+- **best-client** – validation-gated select-and-mix strategy
+
+### communication modes (per direction)
+- **classical_full** – send full parameters (baseline)  
+- **seeded / seeded_sparse** – deterministic sparse masks and quantized deltas  
+- **quantum** – teleportation-simulated channel; accounts for two classical bits per qubit
+
+### metrics and logging
+- Global and client accuracies, validation loss, DU traces  
+- Fidelity proxy when quantum mode is used  
+- Communication bytes per round (down/up and cumulative)
+
+### reproducible runs
+- Unified configuration via `base_config.py`
+- Consistent seeds and data splits for repeatability
+
+## repo structure
+
+
 
 ---
 python -m venv .venv
@@ -96,4 +120,72 @@ tDuQFL_Project/
 └─ artifacts/                        # saved weights / checkpoints
    └─ models/
 
+##datasets
 
+MNIST (binary)
+Digits 
+digit
+𝑎
+digit
+a
+	​
+
+ vs 
+digit
+𝑏
+digit
+b
+	​
+
+ (default 3 vs 8)
+File: data/preprocess_mnist.py → load_and_prepare_dataset(...)
+
+Breast-lesions (USG clinical)
+CSV path in preprocess_genome.py → cleans, encodes, PCA → binary labels
+{benign = 0, malignant = 1}
+
+configure
+
+All settings are defined in configs/base_config.py.
+
+# Dataset
+dataset_name        = "MNIST"
+n_features          = 8
+digit_a, digit_b    = 3, 8
+csv_path_genome     = "/path/to/BrEaST-Lesions-USG-Clinical.csv"
+
+# Split / clients
+split_type          = "NonIID"
+num_clients         = 5
+num_federated_layers= 10
+num_du              = 5
+
+# Optimizer seeds
+initial_lr          = 0.14
+initial_pert        = 0.14
+gamma               = 0.5
+use_deep_unfolding  = True
+
+# Aggregation & selection
+aggregation         = "best"
+select_upload       = "winner_only"
+
+# Communication modes
+uplink_mode         = "quantum"
+downlink_mode       = "quantum"
+
+# Seeded compression knobs
+down_seed_base      = 1234
+down_scale          = 1e-3
+down_mask_ratio     = 0.10
+up_bits             = 8
+up_k_ratio          = 0.01
+
+# Teleportation / Aer
+use_tele_backend    = True
+noise_preset        = "med"
+shots_used          = 256
+
+# Output root
+drive_root          = "./outputs"
+random_seed         = 42
