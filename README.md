@@ -2,7 +2,7 @@
 This is the official implementation for Communication-Efficient Deep Unfolded Quantum Federated Learning. This repository includes all the setup details, experimental results, and the code structure necessary to reproduce the purpose.
 
 Deep-unfolding federated learning with learnable SPSA hyper-params (learning rate & perturbation), optional quantum teleportation perturbation, and pluggable aggregation strategies.
-
+Quantum federated learning (QFL) framework supporting deep unfolding (DU), aggregation choices (FedAvg / Best-client), and three communication modes per direction (uplink/downlink): classical_full, seeded (compressed), and quantum (teleportation-simulated). Includes MNIST (binary) and Breast-Lesions datasets, full logging of accuracy, validation loss, and communication bytes.
 ✨ Highlights
 
 Deep-Unfolding SPSA: LR & perturbation are adapted during each local fit via a momentum-smoothed controller.
