@@ -150,7 +150,34 @@ tDuQFL_Project/
 └─ artifacts/                        # saved weights / checkpoints
    └─ models/
 ```
+## 🧾 Requirements
+- Python: 3.10+ (state your tested versions)
+- OS: Windows/Linux/macOS
+- Optional: Conda, GPU (if any), IBM Runtime credentials (if used)
+Qiskit 1.4.x (Legacy V1 Primitive Diagnostic)
 
+Purpose: diagnostic-only environment to test legacy V1 Sampler (BackendSampler) behavior.
+
+Option A — Python venv
+python -m venv venv_qiskit1
+# Windows:
+venv_qiskit1\Scripts\activate
+# Linux/macOS:
+source venv_qiskit1/bin/activate
+
+python -m pip install -U pip
+pip install "qiskit~=1.4" "qiskit-machine-learning<0.9" qiskit-aer
+
+Option B — Conda
+conda create -n qiskit1 python=3.11 -y
+conda activate qiskit1
+pip install -U pip
+pip install "qiskit~=1.4" "qiskit-machine-learning<0.9" qiskit-aer
+
+
+Verify:
+
+python -c "import qiskit, qiskit_machine_learning; print('qiskit:', qiskit.__version__); print('qiskit_ma
 ## 🧾 Description of directories
 
 | Directory | Description |
