@@ -194,3 +194,11 @@ python -c "import qiskit, qiskit_machine_learning; print('qiskit:', qiskit.__ver
 | **docs/** | Documentation and auto-generated figures for the README |
 | **results/** | Output CSV files generated during training (accuracy, validation loss, etc.) |
 | **artifacts/** | Saved model weights and checkpoints for later evaluation |
+
+Troubleshooting
+
+Common issues:
+- LR/PERT not updating (check loss extraction, SPSA f_plus/f_minus)
+- V2 primitives result format (BitArray → counts)
+- Pass manager / transpilation requirement
+- Backend options (shots, seed_simulator)
