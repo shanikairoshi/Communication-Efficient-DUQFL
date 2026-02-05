@@ -153,6 +153,13 @@ tDuQFL_Project/
 ## 🧾 Requirements
 - Python: 3.10+ (state your tested versions)
 - OS: Windows/Linux/macOS
+- python -m pip install --upgrade pip
+python -m pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cpu
+
+Verify installation 
+- python -c "import torch; print(torch.__version__); print('cuda:', torch.cuda.is_available())"
+
+
 - Optional: Conda, GPU (if any), IBM Runtime credentials (if used)
 Qiskit 1.4.x (Legacy V1 Primitive Diagnostic)
 
